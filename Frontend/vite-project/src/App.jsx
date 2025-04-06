@@ -8,15 +8,17 @@ import ManageStudents from './Project/Admin/ManageStudent/ManageStudents';
 import CreateStudents from './Project/Admin/ManageStudent/CreateStudent';
 import CreateTeacher from './Project/Admin/ManageTeacher/CreateTeacher';
 import ManageTeachers from './Project/Admin/ManageTeacher/ManageTeacher';
-import EditTeacher from './Project/Admin/ManageTeacher/EditTeacher';
-import EditStudent from './Project/Admin/ManageStudent/EditStudent';
-import CreateAssignment from './Project/Teacher/CreateAssignment';
-import GiveCredits from './Project/Teacher/GiveCredits';
-import Unauthorized from './Project/Unauthorized';
 import ProtectedRoute from './Project/ProtectedRoute';
+import Unauthorized from './Project/Unauthorized';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import EditTeacher from "./Project/Admin/ManageTeacher/EditTeacher";
+import EditStudent from "./Project/Admin/ManageStudent/EditStudent";
+import CreateAssignment from './Project/Teacher/CreateAssignment';
+import AssignmentView from './Project/Teacher/AssignmentView';
+import SubmitCredits from './Project/Teacher/SubmitCredit';
+import StudentsWithCredits from './Project/Teacher/StudentWithCredits';
+import ModuleDetails from './Project/Student/ModuleDetails';
 function App() {
   return (
     <>
@@ -26,8 +28,8 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/unauthorized" element={<Unauthorized />} />
 
-        {/* Admin Routes - Protected */}
-        <Route element={<ProtectedRoute allowedRoles={["ADMIN"]} />}>
+        {/* Admin Routes */}
+        <Route element={<ProtectedRoute allowedRoles={['ADMIN']} />}>
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/manage-students" element={<ManageStudents />} />
           <Route path="/create-student" element={<CreateStudents />} />
@@ -35,21 +37,30 @@ function App() {
           <Route path="/manage-teacher" element={<ManageTeachers />} />
           <Route path="/edit-teacher/:teacherId" element={<EditTeacher />} />
           <Route path="/edit-student/:studentId" element={<EditStudent />} />
+
+
+
         </Route>
 
-        {/* Teacher Routes - Protected */}
-        <Route element={<ProtectedRoute allowedRoles={["TEACHER"]} />}>
-          <Route path="/teacher" element={<TeacherDashboard />} />
-          <Route path="/create-assignment" element={<CreateAssignment />} />
-          <Route path="/give-credits/:assignmentId" element={<GiveCredits />} />
+        {/* Teacher Routes */}
+        <Route element={<ProtectedRoute allowedRoles={['TEACHER']} />}>
+        <Route path="/teacher" element={<TeacherDashboard />} />
+          <Route path="/teacher/modules/:moduleId/create-assignment" element={<CreateAssignment />} />
+          <Route path="/teacher/modules/:moduleId/assignments" element={<AssignmentView />} />
+          <Route path="/teacher/modules/:moduleId/assignments/:assignmentId/students/:studentId/credits" element={<SubmitCredits />} />
+          <Route path="/teacher/modules/:moduleId/students-with-credits" element={<StudentsWithCredits />} 
+/>
+        
         </Route>
 
-        {/* Student Routes - Protected */}
-        <Route element={<ProtectedRoute allowedRoles={["STUDENT"]} />}>
+        {/* Student Routes */}
+        <Route element={<ProtectedRoute allowedRoles={['STUDENT']} />}>
           <Route path="/student" element={<StudentDashboard />} />
+          <Route path="/mode" element={<ModuleDetails />} />
+
         </Route>
       </Routes>
-      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false}/>
     </>
   );
 }
